@@ -8,6 +8,7 @@ namespace WordSearch.Services.Interfaces
 {
     public interface IWordIteratorService
     {
+        void ClearSearch(ref char[,,] grid);
         bool Search(ref char[,,] grid, int width, int height, ref string word, int wordIndex);
     }
 }

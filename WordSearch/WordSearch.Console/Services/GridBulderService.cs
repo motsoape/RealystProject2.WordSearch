@@ -9,9 +9,9 @@ namespace WordSearch.Services
 {
     public class GridBulderService : IGridBulderService
     {
-        public char[,,] grid { get; set; }
-        public int x { get; set; }
-        public int y { get; set; }
+        public char[,,] grid { get; private set; }
+        public int x { get; private set; }
+        public int y { get; private set; }
 
         public GridBulderService(int x, int y)
         {

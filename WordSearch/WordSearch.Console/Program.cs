@@ -5,50 +5,62 @@ class Program
 {
     static void Main(string[] args)
     {
-        int width = 8;
-        int height = 8;
+        int width = 5;
+        int height = 5;
+        string textFile;
         IGridBulderService gridBuilder = new GridBulderService(width, height);
         IWordIteratorService interator = new WordIteratorService();
-
-        string word = "MPHAHLELE";
         var grid = gridBuilder.Build();
-        var oldGrid = grid;
 
-        var results = interator.Search(ref grid, width, height, ref word, 0);
+        Console.WriteLine("Enter file path: ");
+        textFile = Console.ReadLine();
 
-        if (!results)
+        if (File.Exists(textFile))
         {
-            grid = oldGrid;
-            Console.WriteLine(@"{0} - Not Found", word);
-
-        }
-        else
-        {
-            Console.WriteLine(@"{0} - Found", word);
-        }
-        Console.WriteLine();
-
-        //Print Grid
-
-        for (int x = 0; x < width; x++)
-        {
-            for (int y = 0; y < height; y++)
+            using (StreamReader file = new StreamReader(textFile))
             {
-                if(grid[x, y, 1] == '*')
+                string word;
+
+                while ((word = file.ReadLine()) != null)
                 {
-                    Console.ForegroundColor = ConsoleColor.Yellow;
-                    Console.Write(grid[x, y, 0]);
-                }
-                else
-                {
+                    word = word.ToUpper();
+                    var results = interator.Search(ref grid, width, height, ref word, 0);
+
+                    if (!results)
+                    {
+                        interator.ClearSearch(ref grid);
+                        Console.WriteLine(@"{0} - Not Found", word);
+                    }
+                    else
+                    {
+                        Console.WriteLine(@"{0} - Found", word);
+                    }
+                    Console.WriteLine();
+
+                    //Print Grid
+                    for (int x = 0; x < width; x++)
+                    {
+                        for (int y = 0; y < height; y++)
+                        {
+                            if (grid[x, y, 1] == '*')
+                            {
+                                Console.ForegroundColor = ConsoleColor.Yellow;
+                                Console.Write(grid[x, y, 0]);
+                            }
+                            else
+                            {
+                                Console.ForegroundColor = ConsoleColor.White;
+                                Console.Write(grid[x, y, 0]);
+                            }
+                        }
+                        Console.WriteLine();
+                    }
+
                     Console.ForegroundColor = ConsoleColor.White;
-                    Console.Write(grid[x, y, 0]);
+                    Console.WriteLine("*****************************************************");
+                    interator.ClearSearch(ref grid);
                 }
             }
-            Console.WriteLine();
         }
-
-        Console.ForegroundColor = ConsoleColor.White;
-        Console.WriteLine("*****************************************************");
     }
 }

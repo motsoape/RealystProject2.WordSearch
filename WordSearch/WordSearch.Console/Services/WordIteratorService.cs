@@ -11,6 +11,9 @@ namespace WordSearch.Services
     {
         public WordIteratorService() { }
 
+        /*
+         * Search words on the grid
+         */
         public bool Search(ref char[,,] grid, int width, int height, ref string word, int wordIndex)
         {
             if (word == null)
@@ -31,6 +34,23 @@ namespace WordSearch.Services
             }
 
             return false;
+        }
+
+        /*
+         * Clear the grid for found words positions
+         */
+        public void ClearSearch(ref char[,,] grid)
+        {
+            if (grid != null)
+            {
+                for (int _x = 0; _x < grid.GetLength(0); _x++)
+                {
+                    for (int _y = 0; _y < grid.GetLength(1); _y++)
+                    {
+                        grid[_x, _y, 1] = '#';
+                    }
+                }
+            }
         }
     }
 }
